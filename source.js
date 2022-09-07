@@ -1853,6 +1853,18 @@ var SVGtoPDF = function(doc, svg, x, y, options) {
                 subPaths[j].insertInDocument();
               }
             }
+            if (this.attr('data-overprint')) {
+              let name = 'O' + (parseInt(Math.random() * 1000));
+              let gstate = doc.ref({
+                Type: 'ExtGState',
+                OP: true,
+                op: true,
+                OPM: 1
+              });
+              gstate.end();
+              doc.page.ext_gstates[name] = gstate;
+              doc.addContent('/' + name + ' gs');
+            }
             if (fill && stroke) {
               doc.fillAndStroke(this.get('fill-rule'));
             } else if (fill) {
